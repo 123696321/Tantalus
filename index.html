@@ -1,43 +1,169 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-<meta property="og:title" content="Tantalus - Greek Mythology">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="Tantalus - Greek Mythology">
 <meta property="og:description" content="Discover the story of Tantalus, a symbol of ambition and eternal punishment in Greek mythology.">
 <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/2/22/Tantalus_Painting.jpg">
 <meta property="og:url" content="https://www.linkedin.com/in/rantalus-tantalus-a811533a9?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app">
 <meta property="og:type" content="website">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tantalus</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            color: #333;
-            text-align: center;
-            padding: 50px;
-        }
-        h1 {
-            color: #800000;
-        }
-        p {
-            max-width: 600px;
-            margin: 20px auto;
-            line-height: 1.6;
-        }
-        img {
-            max-width: 300px;
-            border-radius: 10px;
-            margin-top: 20px;
-        }
-    </style>
+  <title>rantalus</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body, html { width: 100%; height: 100%; overflow: hidden; font-family: Arial, sans-serif; background: #0d0d0d; }
+
+    /* Canvas for stars */
+    canvas#space-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; }
+
+    /* Fog overlay */
+    .fog {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at center, rgba(255,255,255,0.02), rgba(0,0,0,0.9));
+      z-index: -1;
+    }
+
+    /* Content overlay */
+    .content {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      color: #fff;
+      padding: 50px 20px;
+    }
+
+    .profile-container {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 20px;
+    }
+
+    .content img.profile {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      border: 3px solid #fff;
+      transition: transform 0.3s;
+      cursor: pointer;
+    }
+
+    .profile-container:hover img.profile {
+      transform: scale(1.1);
+    }
+
+    /* LinkedIn tooltip */
+    .linkedin-tooltip {
+      position: absolute;
+      bottom: -40px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.8);
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 0.9em;
+      display: none;
+      white-space: nowrap;
+    }
+
+    .profile-container:hover .linkedin-tooltip {
+      display: block;
+    }
+
+    h1 { font-size: 3em; color: #ff6666; margin-bottom: 20px; }
+    p { font-size: 1.2em; max-width: 700px; margin: 0 auto 20px auto; line-height: 1.6; }
+  </style>
 </head>
 <body>
+
+  <!-- Stars Canvas -->
+  <canvas id="space-bg"></canvas>
+  <!-- Fog effect -->
+  <div class="fog"></div>
+
+  <!-- Content -->
+  <div class="content">
+    <div class="profile-container">
+      <a href="https://www.linkedin.com/in/rantalus-tantalus-a811533a9?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app">
+        <img class="profile" src="https://github.com/rantalus">
+      </a>
+      <div class="linkedin-tooltip">Connect on LinkedIn</div>
+    </div>
     <h1>Tantalus</h1>
     <p>
-        Tantalus is a character from Greek mythology, famous for his divine punishment that made him suffer eternal hunger and thirst in the underworld. 
-        He is considered a symbol of excessive ambition and eternal punishment.
+      Tantalus is a figure from Greek mythology, punished eternally for his excessive ambition. 
+      He is forever tantalized by food and water that recede whenever he tries to consume them.
     </p>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/2/22/Tantalus_Painting.jpg" alt="Tantalus Image">
+  </div>
+
+  <!-- Stars and comet animation -->
+  <script>
+    const canvas = document.getElementById('space-bg');
+    const ctx = canvas.getContext('2d');
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+    const stars = [];
+    const numStars = 200;
+    const comets = [];
+
+    function random(min, max) { return Math.random() * (max - min) + min; }
+
+    // Initialize stars
+    for(let i=0; i<numStars; i++){
+      stars.push({ x: random(0,width), y: random(0,height), r: random(0.5,1.5), opacity: random(0.1,0.9) });
+    }
+
+    // Initialize comets
+    function spawnComet(){
+      comets.push({
+        x: 0,
+        y: random(0,height/2),
+        length: random(100,200),
+        speed: random(4,8),
+        angle: random(0.2,0.5)
+      });
+    }
+
+    function animate(){
+      ctx.clearRect(0,0,width,height);
+      
+      // Draw stars
+      stars.forEach(s=>{
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+        ctx.fillStyle = `rgba(255,255,255,${s.opacity})`;
+        ctx.fill();
+      });
+
+      // Draw comets
+      comets.forEach((c,i)=>{
+        ctx.beginPath();
+        ctx.moveTo(c.x, c.y);
+        ctx.lineTo(c.x - c.length*c.angle, c.y - c.length*c.angle);
+        ctx.strokeStyle = "rgba(255,255,255,0.8)";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        c.x += c.speed;
+        c.y += c.speed*c.angle;
+
+        if(c.x > width || c.y > height) comets.splice(i,1);
+      });
+
+      // Randomly spawn new comets
+      if(Math.random() < 0.01) spawnComet();
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+
+    window.addEventListener('resize', ()=>{
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    });
+  </script>
 </body>
 </html>
