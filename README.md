@@ -1,6 +1,6 @@
 # Tantalus - Greek Mythology
 
-![Tantalus](https://upload.wikimedia.org/wikipedia/commons/2/22/Tantalus_Painting.jpg)
+![Tantalus][([https://upload.wikimedia.org/wikipedia/commons/2/22/Tantalus_Painting.jpg](https://github.com/account))](https://github.com/account)
 
 ## Overview
 Tantalus is a figure from Greek mythology, famous for his eternal punishment. He is known for his excessive ambition and hubris, which led to his suffering in the underworld—forever tantalized by food and water that recede whenever he tries to consume them.
