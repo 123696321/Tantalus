@@ -1,21 +1,31 @@
-  <!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>test</title>
+    <title>123696321</title>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.fog.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+
     <style>
+        :root {
+            --origin-green: #b2f2bb;
+            --origin-purple: #d7c3f2;
+            --bg-deep: #000;
+        }
+
         body, html {
             margin: 0;
             padding: 0;
-            background-color: #000;
-            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--bg-deep);
+            font-family: 'Courier New', monospace; 
             color: #fff;
+            scroll-behavior: smooth;
             overflow-x: hidden;
         }
+
         #vanta-bg, #particles-js {
             position: fixed;
             inset: 0;
@@ -24,159 +34,183 @@
         #vanta-bg { z-index: -2; opacity: 0.6; }
         #particles-js { z-index: -1; }
 
-        .mono-overlay {
-            filter: grayscale(100%) sepia(50%) hue-rotate(240deg);
+        .origin-mono {
+            filter: grayscale(100%) sepia(20%) hue-rotate(250deg) brightness(0.85);
         }
-        .site-header {
-            padding: 15px 5%;
+
+        .origin-header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 25px 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
             background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            backdrop-filter: blur(12px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+            box-sizing: border-box;
         }
 
-        .logo {
+        .origin-logo {
             font-weight: bold;
-            letter-spacing: 3px;
-            font-size: 1.1rem;
-            color: #d7c3f2;
+            letter-spacing: 10px;
+            color: var(--origin-purple);
+            text-transform: uppercase;
+            font-size: 1.2rem;
         }
 
-        .hero-section {
-            min-height: 80vh;
+        .origin-nav a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.75rem;
+            margin-left: 30px;
+            opacity: 0.5;
+            transition: 0.4s;
+            letter-spacing: 3px;
+        }
+        .origin-nav a:hover { opacity: 1; color: var(--origin-green); }
+
+        section {
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            text-align: center;
-            padding: 60px 10%;
+            padding: 100px 10%;
+            box-sizing: border-box;
         }
 
         .hero-title {
-            font-size: clamp(2.2rem, 8vw, 4.5rem);
-            margin-bottom: 15px;
+            font-size: clamp(3rem, 12vw, 6rem);
+            letter-spacing: 25px;
             text-transform: uppercase;
-            letter-spacing: 6px;
-            /* تأثير مونو سيريالي */
-            filter: drop-shadow(0 0 15px rgba(97, 15, 202, 0.5));
+            margin-bottom: 10px;
+            font-weight: 300;
+            text-shadow: 0 0 30px rgba(178, 242, 187, 0.3);
         }
 
-        .hero-subtitle {
-            font-size: 1.2rem;
-            max-width: 600px;
-            opacity: 0.8;
-            line-height: 1.7;
-            margin-bottom: 50px;
+        .origin-card {
+            max-width: 850px;
+            text-align: center;
+            background: rgba(10, 10, 10, 0.5);
+            padding: 70px 40px;
+            border-radius: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(20px);
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .image-gallery {
+
+        .origin-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .card-label {
+            font-size: 0.7rem;
+            letter-spacing: 12px;
+            color: var(--origin-green);
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            opacity: 0.8;
+        }
+
+        .card-text {
+            font-size: 1.15rem;
+            line-height: 2;
+            opacity: 0.7;
+            margin-bottom: 40px;
+            font-weight: 300;
+        }
+
+        .origin-gallery {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
+            gap: 20px;
             width: 100%;
-            max-width: 1200px;
-            margin-bottom: 60px;
         }
 
-        .image-card {
-            position: relative;
-            aspect-ratio: 1/1;
+        .origin-img {
+            height: 350px;
+            border-radius: 20px;
             overflow: hidden;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.05);
-            /* تأثير التلاشي في الضباب */
-            box-shadow: 0 0 40px rgba(97, 15, 202, 0.1);
-            transition: all 0.5s ease;
-            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.08);
+            position: relative;
         }
 
-        .image-card:hover {
-            transform: scale(1.03);
-            border-color: rgba(97, 15, 202, 0.3);
-            box-shadow: 0 0 50px rgba(97, 15, 202, 0.3);
-        }
-
-        .image-card img {
+        .origin-img img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            opacity: 0.7;
-            filter: blur(2px) saturate(0);
-            transition: all 0.5s ease;
+            opacity: 0.4;
+            transition: 0.8s filter, 0.8s opacity;
+            filter: grayscale(1) blur(3px);
         }
 
-        .image-card:hover img {
-            opacity: 1;
-            filter: blur(0px) saturate(0);
+        .origin-img:hover img {
+            opacity: 0.9;
+            filter: grayscale(0.5) blur(0px);
         }
 
-        .card-caption {
+        .indicator {
             position: absolute;
-            bottom: 15px;
-            left: 15px;
-            font-size: 0.8rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: #EEEEFE;
-            text-shadow: 0 0 5px rgba(0,0,0,0.8);
+            bottom: 40px;
+            font-size: 0.6rem;
+            letter-spacing: 8px;
+            opacity: 0.4;
+            animation: pulse 3s infinite;
         }
 
-        .cta-button {
-            padding: 16px 45px;
-            background: transparent;
-            border: 1px solid #610fca;
-            color: #EEEEFE;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            cursor: pointer;
-            transition: 0.4s;
-            font-weight: bold;
-        }
-
-        .cta-button:hover {
-            background: #610fca;
-            box-shadow: 0 0 35px rgba(97, 15, 202, 0.7);
+        @keyframes pulse {
+            0%, 100% { opacity: 0.2; transform: translateY(0); }
+            50% { opacity: 0.6; transform: translateY(10px); }
         }
     </style>
 </head>
-<body class="mono-overlay">
+<body class="origin-mono">
 
     <div id="vanta-bg"></div>
     <div id="particles-js"></div>
-
-    <header class="site-header">
-        <div class="logo">RIJN IJSSEL x 0</div>
-        <nav style="font-size: 0.75rem; opacity: 0.5; letter-spacing: 1px;">[ SENSATION OVERLAY ]</nav>
+    <header class="origin-header">
+        <div class="origin-logo">ORIGIN</div>
+        <nav class="origin-nav">
+            <a href="#hero">HOME</a>
+            <a href="#about">ABOUT</a>
+            <a href="https://rijnijssel.nl" target="_blank">0-PORTAL</a>
+        </nav>
     </header>
 
-    <main class="hero-section">
-        <p style="letter-spacing: 8px; font-size: 0.7rem; opacity: 0.5; margin-bottom: 10px;">THE ORIGIN OF SENSATION</p>
-        <h1 class="hero-title">Sociaal Werker</h1>
-        <p class="hero-subtitle">
-            Ontdek de nieuwe dimensie van leren. Waar technologie en menselijkheid samenkomen in een sfeer van rust en innovatie.
+    <section id="hero">
+        <p style="letter-spacing: 15px; opacity: 0.4; font-size: 0.6rem; margin-bottom: 20px;">SYSTEM: ACTIVE</p>
+        <h1 class="hero-title">ORIGIN</h1>
+        <p style="max-width: 500px; text-align: center; opacity: 0.6; line-height: 1.8; font-size: 0.9rem; letter-spacing: 2px;">
+            The instinct of sensation. <br> A new dimension for Rijn IJssel.
         </p>
+        <div class="indicator">PROCEED TO ORIGIN</div>
+    </section>
 
-        <div class="image-gallery">
-            <div class="image-card">
-                <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=600&auto=format&fit=crop" alt="Experiementele Foto 1">
-                <div class="card-caption">Interactie</div>
-            </div>
-            <div class="image-card">
-                <img src="https://images.unsplash.com/photo-1516534775068-ba3e7458af70?q=80&w=600&auto=format&fit=crop" alt="Experiementele Foto 2">
-                <div class="card-caption">Samenwerking</div>
-            </div>
-            <div class="image-card">
-                <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=600&auto=format&fit=crop" alt="Experiementele Foto 3">
-                <div class="card-caption">Innovatie</div>
+    <section id="about">
+        <div class="origin-card" id="scroll-target">
+            <div class="card-label">About Origin</div>
+            <p class="card-text">
+                <strong>ORIGIN</strong> is het punt waar alles begint. Het is een digitale vertaling van rust en focus. Voor de studenten van <strong>Rijn IJssel</strong> hebben we een omgeving gecreëerd die de ruis elimineert.
+            </p>
+            <p class="card-text">
+                Dit is geen website, dit is een ervaring. <strong>ORIGIN</strong> brengt de essentie van de Sociaal Werker terug naar het menselijke aspect, ondersteund door de diepte van technologische stilte.
+            </p>
+            
+            <div class="origin-gallery">
+                <div class="origin-img"><img src="https://images.unsplash.com/photo-1557683316-973673baf926?q=80&w=600" alt="Origin Visual 1"></div>
+                <div class="origin-img"><img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=600" alt="Origin Visual 2"></div>
             </div>
         </div>
+    </section>
 
-        <button class="cta-button">Meld je aan</button>
-    </main>
-
-    <footer style="padding: 40px; text-align: center; font-size: 0.6rem; opacity: 0.3; letter-spacing: 2px;">
-        DESIGNED BY A0Z // 0 ORIGIN // EXPERIMENTAL PROTOTYPE
+    <footer style="padding: 60px; text-align: center; font-size: 0.55rem; opacity: 0.2; letter-spacing: 5px; text-transform: uppercase;">
+        Designed by A0Z // ORIGIN // All systems 0
     </footer>
 
     <script>
@@ -184,25 +218,34 @@
             el: "#vanta-bg",
             mouseControls: true,
             touchControls: true,
-            highlightColor: 0x610fca, 
-            midtoneColor: 0x1b0434,   
+            highlightColor: 0x610fca,
+            midtoneColor: 0x0a0a0a,
             lowlightColor: 0x000000,
             baseColor: 0x000000,
-            blurFactor: 0.14,
-            speed: 1.0,
+            blurFactor: 0.9,
+            speed: 0.7,
             zoom: 1.0
         });
-
         particlesJS("particles-js", {
             particles: {
-                number: { value: 65, density: { enable: true, value_area: 800 } },
+                number: { value: 50, density: { enable: true, value_area: 1000 } },
                 color: { value: "#ffffff" },
-                opacity: { value: 0.4, random: true },
-                size: { value: 1.5, random: true },
-                move: { enable: true, speed: 0.05, direction: "none", random: true },
+                opacity: { value: 0.25, random: true },
+                size: { value: 1.2, random: true },
+                move: { enable: true, speed: 0.15, direction: "none" },
                 line_linked: { enable: false }
             }
         });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.25 });
+
+        observer.observe(document.getElementById('scroll-target'));
     </script>
 </body>
 </html>
