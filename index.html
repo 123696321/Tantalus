@@ -1,251 +1,158 @@
  <!DOCTYPE html>
-<html lang="nl">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>123696321</title>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.fog.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-
+    <title>Origin Pro Interface</title>
     <style>
         :root {
-            --origin-green: #b2f2bb;
-            --origin-purple: #d7c3f2;
-            --bg-deep: #000;
+            --primary-orange: #ff4747;
+            --bg-dark: #121212;
+            --sidebar-color: #1e1e1e;
+            --card-bg: #2a2a2a;
+            --text-main: #ffffff;
+            --text-dim: #b3b3b3;
         }
 
-        body, html {
+        body {
             margin: 0;
-            padding: 0;
-            background-color: var(--bg-deep);
-            font-family: 'Courier New', monospace; 
-            color: #fff;
-            scroll-behavior: smooth;
-            overflow-x: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
         }
 
-        #vanta-bg, #particles-js {
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-        }
-        #vanta-bg { z-index: -2; opacity: 0.6; }
-        #particles-js { z-index: -1; }
-
-        .origin-mono {
-            filter: grayscale(100%) sepia(20%) hue-rotate(250deg) brightness(0.85);
+        /* Sidebar Style */
+        aside {
+            width: 240px;
+            background-color: var(--sidebar-color);
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            border-left: 1px solid #333;
         }
 
-        .origin-header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 25px 5%;
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-orange);
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        nav a {
+            color: var(--text-dim);
+            text-decoration: none;
+            padding: 12px;
+            display: block;
+            border-radius: 8px;
+            transition: 0.3s;
+            margin-bottom: 5px;
+        }
+
+        nav a:hover, nav a.active {
+            background-color: var(--primary-orange);
+            color: white;
+        }
+
+        /* Main Content */
+        main {
+            flex-grow: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(12px);
-            z-index: 1000;
-            border-bottom: 1px solid rgba(255,255,255,0.03);
-            box-sizing: border-box;
+            margin-bottom: 30px;
         }
 
-        .origin-logo {
-            font-weight: bold;
-            letter-spacing: 10px;
-            color: var(--origin-purple);
-            text-transform: uppercase;
-            font-size: 1.2rem;
-        }
-
-        .origin-nav a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 0.75rem;
-            margin-left: 30px;
-            opacity: 0.5;
-            transition: 0.4s;
-            letter-spacing: 3px;
-        }
-        .origin-nav a:hover { opacity: 1; color: var(--origin-green); }
-
-        section {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 100px 10%;
-            box-sizing: border-box;
-        }
-
-        .hero-title {
-            font-size: clamp(3rem, 12vw, 6rem);
-            letter-spacing: 25px;
-            text-transform: uppercase;
-            margin-bottom: 10px;
-            font-weight: 300;
-            text-shadow: 0 0 30px rgba(178, 242, 187, 0.3);
-        }
-
-        .origin-card {
-            max-width: 850px;
-            text-align: center;
-            background: rgba(10, 10, 10, 0.5);
-            padding: 70px 40px;
-            border-radius: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            backdrop-filter: blur(20px);
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .origin-card.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .card-label {
-            font-size: 0.7rem;
-            letter-spacing: 12px;
-            color: var(--origin-green);
-            margin-bottom: 40px;
-            text-transform: uppercase;
-            opacity: 0.8;
-        }
-
-        .card-text {
-            font-size: 1.15rem;
-            line-height: 2;
-            opacity: 0.7;
-            margin-bottom: 40px;
-            font-weight: 300;
-        }
-
-        .origin-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            width: 100%;
-        }
-
-        .origin-img {
-            height: 350px;
+        .search-bar {
+            background: #333;
+            border: none;
+            padding: 10px 20px;
             border-radius: 20px;
+            color: white;
+            width: 300px;
+        }
+
+        /* Game Grid */
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .game-card {
+            background: var(--card-bg);
+            border-radius: 12px;
             overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.08);
-            position: relative;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+            border: 1px solid transparent;
         }
 
-        .origin-img img {
+        .game-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-orange);
+        }
+
+        .game-img {
             width: 100%;
-            height: 100%;
+            height: 250px;
+            background: #444; /* Placeholder */
             object-fit: cover;
-            opacity: 0.4;
-            transition: 0.8s filter, 0.8s opacity;
-            filter: grayscale(1) blur(3px);
         }
 
-        .origin-img:hover img {
-            opacity: 0.9;
-            filter: grayscale(0.5) blur(0px);
+        .game-info {
+            padding: 15px;
         }
 
-        .indicator {
-            position: absolute;
-            bottom: 40px;
-            font-size: 0.6rem;
-            letter-spacing: 8px;
-            opacity: 0.4;
-            animation: pulse 3s infinite;
+        .game-title {
+            font-weight: bold;
+            font-size: 16px;
         }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 0.2; transform: translateY(0); }
-            50% { opacity: 0.6; transform: translateY(10px); }
+        .game-price {
+            color: var(--primary-orange);
+            margin-top: 5px;
+            font-size: 14px;
         }
+
+        /* Custom Scrollbar */
+        main::-webkit-scrollbar { width: 8px; }
+        main::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
     </style>
 </head>
-<body class="origin-mono">
+<body>
 
-    <div id="vanta-bg"></div>
-    <div id="particles-js"></div>
-    <header class="origin-header">
-        <div class="origin-logo">ORIGIN</div>
-        <nav class="origin-nav">
-            <a href="#hero">HOME</a>
-            <a href="#about">ABOUT</a>
-            <a href="https://rijnijssel.nl" target="_blank">0-PORTAL</a>
+    <aside>
+        <div class="logo">ORIGIN NEXT</div>
+        <nav>
+            <a href="#" class="active">المتجر</a>
+            <a href="#">مكتبتي</a>
+            <a href="#">العروض</a>
+            <a href="#">الإعدادات</a>
         </nav>
-    </header>
+    </aside>
 
-    <section id="hero">
-        <p style="letter-spacing: 15px; opacity: 0.4; font-size: 0.6rem; margin-bottom: 20px;">SYSTEM: ACTIVE</p>
-        <h1 class="hero-title">ORIGIN</h1>
-        <p style="max-width: 500px; text-align: center; opacity: 0.6; line-height: 1.8; font-size: 0.9rem; letter-spacing: 2px;">
-            The instinct of sensation. <br> A new dimension for Rijn IJssel.
-        </p>
-        <div class="indicator">PROCEED TO ORIGIN</div>
-    </section>
-
-    <section id="about">
-        <div class="origin-card" id="scroll-target">
-            <div class="card-label">About Origin</div>
-            <p class="card-text">
-                <strong>ORIGIN</strong> is het punt waar alles begint. Het is een digitale vertaling van rust en focus. Voor de studenten van <strong>Rijn IJssel</strong> hebben we een omgeving gecreëerd die de ruis elimineert.
-            </p>
-            <p class="card-text">
-                Dit is geen website, dit is een ervaring. <strong>ORIGIN</strong> brengt de essentie van de Sociaal Werker terug naar het menselijke aspect, ondersteund door de diepte van technologische stilte.
-            </p>
-            
-            <div class="origin-gallery">
-                <div class="origin-img"><img src="https://images.unsplash.com/photo-1557683316-973673baf926?q=80&w=600" alt="Origin Visual 1"></div>
-                <div class="origin-img"><img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=600" alt="Origin Visual 2"></div>
-            </div>
+    <main>
+        <div class="header">
+            <h2>اكتشف الألعاب</h2>
+            <input type="text" class="search-bar" placeholder="بحث عن لعبة...">
         </div>
-    </section>
 
-    <footer style="padding: 60px; text-align: center; font-size: 0.55rem; opacity: 0.2; letter-spacing: 5px; text-transform: uppercase;">
-        Designed by A0Z // ORIGIN // All systems 0
-    </footer>
-
-    <script>
-        VANTA.FOG({
-            el: "#vanta-bg",
-            mouseControls: true,
-            touchControls: true,
-            highlightColor: 0x610fca,
-            midtoneColor: 0x0a0a0a,
-            lowlightColor: 0x000000,
-            baseColor: 0x000000,
-            blurFactor: 0.9,
-            speed: 0.7,
-            zoom: 1.0
-        });
-        particlesJS("particles-js", {
-            particles: {
-                number: { value: 50, density: { enable: true, value_area: 1000 } },
-                color: { value: "#ffffff" },
-                opacity: { value: 0.25, random: true },
-                size: { value: 1.2, random: true },
-                move: { enable: true, speed: 0.15, direction: "none" },
-                line_linked: { enable: false }
-            }
-        });
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, { threshold: 0.25 });
-
-        observer.observe(document.getElementById('scroll-target'));
-    </script>
-</body>
-</html>
+        <div class="game-grid">
+            <div class="game-card">
+                <div class="game-img" style="background: linear-gradient(45deg, #1e3c72, #2a5298);"></div>
+                <div class="game-info">
+                    <div class="game-title">Battlefield 2042</div>
+                    <div class="game-price">59.99$</div>
+                </div>
+            </div>
+            <div class="game-card">
+                <div class="game-img" style
